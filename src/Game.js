@@ -3,7 +3,13 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./Game.css";
 
-const socket = io("http://localhost:3456/game");
+const socket = io("http://localhost:3456/game", {
+  reconnection: true, // 启用自动重连
+  reconnectionAttempts: 5, // 最大重连次数
+  reconnectionDelay: 1000, // 初始重连延迟 (ms)
+  reconnectionDelayMax: 5000, // 最大重连延迟 (ms)
+  timeout: 20000,
+});
 
 function Game() {
   const [team, setTeam] = useState(null);
@@ -35,7 +41,7 @@ function Game() {
     });
 
     socket.on("countdown", (timeLeft) => {
-      console.log(timeLeft)
+      console.log(timeLeft);
 
       setCountdown(timeLeft);
       setMessage(`游戏 ${timeLeft} 秒后开始`);
@@ -47,7 +53,6 @@ function Game() {
       socket.off("gameEnd");
       socket.off("countdown");
       socket.off("gameJoined");
-
     };
   }, []);
 

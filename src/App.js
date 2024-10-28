@@ -1,10 +1,11 @@
 import Game from './Game.js';
 import './App.css';
+import { Chat } from './Chat.js';
 
 function App() {
   return (
     <div className="App">
-      <Game />
+      <Chat />
     </div>
   );
 }
